@@ -1,0 +1,53 @@
+<div class="card-container">
+  <div class="user-list" *ngIf="senderId === 'admin'">
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title class="card-title">User List</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <ul class="users">
+          <li class="user" *ngFor="let user of users" (click)="selectUser(user)">
+            <img src="{{ user.avatarUrl }}" alt="{{ user.username }}" class="user-image">
+            <p class="username">{{ user.username }}</p>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="chat-interface" *ngIf="senderId != 'admin' || userSelected != 0">
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-header *ngIf="senderId !== 'admin'; else userImage">
+        <div mat-card-avatar class="example-header-image" aria-label="Avatar"></div>
+        <mat-card-title class="card-title">John Doe</mat-card-title>
+        <mat-card-subtitle class="card-subtitle">Client support</mat-card-subtitle>
+      </mat-card-header>
+      <ng-template #userImage>
+        <mat-card-header style="padding-bottom: 16px;">
+          <img [src]="users[userSelected - 1].avatarUrl" alt="User Image" class="user-image">
+          <h6>{{ users[userSelected - 1].username }}</h6>
+        </mat-card-header>
+      </ng-template>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <ul class="messages" aria-live="polite">
+          <li class="message" *ngFor="let item of messages"
+              [ngClass]="item.senderId === senderId ? 'right' : 'left'">
+            <div class="text_wrapper">
+              <div class="text">{{ item.message }}</div>
+            </div>
+          </li>
+        </ul>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <mat-icon class="button-poc"> attach_file</mat-icon>
+        <mat-icon class="button-poc">sentiment_satisfied</mat-icon>
+        <textarea matInput class="message_input" [(ngModel)]="messageInput" rows="2"
+                  placeholder="Ask something" name="message" aria-label="Message input"></textarea>
+        <button class="send-btn" mat-button type="submit" (click)="sendMessage()" aria-label="Send message">Send
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
