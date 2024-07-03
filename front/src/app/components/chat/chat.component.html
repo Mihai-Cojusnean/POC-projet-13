@@ -11,7 +11,18 @@
         <ul class="users">
           <li class="user" *ngFor="let customer of customers" (click)="selectCustomer(customer.id)">
             <img src="{{ customer.photo }}" alt="{{ customer.username }}" class="user-image">
-            <p class="username">{{ customer.username }}</p>
+            <div
+              *ngIf="newMessageCounts[customer.id] > 0"
+              matBadge="{{ newMessageCounts[customer.id] }}"
+              matBadgeOverlap="false"
+              class="demo-section">
+              {{ customer.username }}
+            </div>
+            <div
+              *ngIf="newMessageCounts[customer.id] === 0"
+              class="demo-section">
+              {{ customer.username }}
+            </div>
           </li>
         </ul>
       </mat-card-content>

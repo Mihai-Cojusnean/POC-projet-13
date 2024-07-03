@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit {
   messageInput: string = '';
   currUserId!: string;           /* curr - current */
   pickedUserIdx: number = 0;     /* idx - index */
+  newMessageCounts: { [key: string]: number } = {};
 
   constructor(
     private webSocketService: WebSocketService,
@@ -27,17 +28,9 @@ export class ChatComponent implements OnInit {
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.currUserId = params['userId'];
-      if (this.currUserId == "admin") {
-        this.loadClientList();
-      } else {
-        this.loadMessages(this.currUserId);
-      }
-      this.webSocketService.connect(this.currUserId);
-      this.webSocketService.getMessages().subscribe((message: ChatMessage) => {
-        if (message.senderId == this.currUserId || this.currUserId == 'admin') {
-          this.messages.push(message);
-        }
-      });
+      this.loadChatData();
+      this.connectWebSocket();
+      this.subscribeToMessages();
     });
   }
 
@@ -56,6 +49,19 @@ export class ChatComponent implements OnInit {
   protected selectCustomer(customerId: string): void {
     this.loadMessages(customerId);
     this.pickedUserIdx = parseInt(customerId);
+    this.newMessageCounts[customerId] = 0;
+  }
+
+  private loadChatData(): void {
+    if (this.currUserId == "admin") {
+      this.loadClientList();
+    } else {
+      this.loadMessages(this.currUserId);
+    }
+  }
+
+  private connectWebSocket(): void {
+    this.webSocketService.connect(this.currUserId);
   }
 
   private loadMessages(customerId: string): void {
@@ -64,9 +70,24 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  private loadClientList() {
+  private loadClientList(): void {
     this.customerService.getCustomers().subscribe((customers: Customer[]) => {
+      customers.forEach((customer: Customer) => {
+        this.newMessageCounts[customer.id] = 0;
+      })
       this.customers = customers;
+    });
+  }
+
+  private subscribeToMessages(): void {
+    this.webSocketService.getMessages().subscribe((message: ChatMessage) => {
+      if (!(this.currUserId == 'admin' && message.senderId != this.pickedUserIdx.toString())) {
+        this.messages.push(message);
+      }
+      if (this.currUserId == 'admin' && this.pickedUserIdx.toString()
+        != message.senderId && message.senderId != 'admin') {
+        this.newMessageCounts[message.senderId]++;
+      }
     });
   }
 }

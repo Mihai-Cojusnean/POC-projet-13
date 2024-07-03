@@ -10,6 +10,7 @@ import {MatDivider} from "@angular/material/divider";
 import {MatInput} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {MatBadge} from "@angular/material/badge";
 
 const materialModule = [
   MatIconModule,
@@ -17,6 +18,7 @@ const materialModule = [
   MatButton,
   MatDivider,
   MatInput,
+  MatBadge
 ]
 
 @NgModule({
@@ -24,13 +26,13 @@ const materialModule = [
     AppComponent,
     ChatComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    materialModule,
-    HttpClientModule,
-    FormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        materialModule,
+        HttpClientModule,
+        FormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
