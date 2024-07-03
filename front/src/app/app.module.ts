@@ -10,6 +10,7 @@ import {MatDivider} from "@angular/material/divider";
 import {MatInput} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {MatBadge} from "@angular/material/badge";
 
 const materialModule = [
   MatIconModule,
@@ -17,6 +18,7 @@ const materialModule = [
   MatButton,
   MatDivider,
   MatInput,
+  MatBadge
 ]
 
 @NgModule({
