@@ -3,7 +3,6 @@
 }
 
 .card-container {
-  min-width: 700px;
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -15,13 +14,19 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-.example-card {
-  width: 100%;
-  max-width: 400px;
+.card {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
-.example-header-image {
+.chat-interface {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  z-index: 100;
+}
+
+.card-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
 }
@@ -71,23 +76,9 @@
   min-height: 60px;
 }
 
-.card-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.chat-interface {
-  flex: 2;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 400px;
-  z-index: 100;
-}
-
+/* Admin list of users */
 .user-list {
   list-style-type: none;
-  padding: 0;
   min-width: 200px;
   position: absolute;
   bottom: 20px;
@@ -96,13 +87,11 @@
 }
 
 .users {
-  list-style-type: none;
   padding: 0;
 }
 
 .user {
   cursor: pointer;
-  transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -110,6 +99,7 @@
 
 .user:hover {
   background-color: #E9EEFA;
+  border-radius: 20px;
 }
 
 .user-image {

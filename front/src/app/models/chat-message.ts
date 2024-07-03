@@ -1,5 +1,6 @@
 export interface ChatMessage {
   senderId: string;
   receiverId: string;
-  message: string;
+  content: string;
+  timestamp: string;
 }
