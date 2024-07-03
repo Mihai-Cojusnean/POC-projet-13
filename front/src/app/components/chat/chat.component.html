@@ -1,57 +1,68 @@
 <div class="card-container">
 
-  <!-- User list visible only by client service -->
-  <div class="user-list" *ngIf="currUserId === 'admin'">
-    <mat-card class="card" appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>Customer List</mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <ul class="users">
-          <li class="user" *ngFor="let customer of customers" (click)="selectCustomer(customer.id)">
-            <img src="{{ customer.photo }}" alt="{{ customer.username }}" class="user-image">
-            <p class="username">{{ customer.username }}</p>
-          </li>
-        </ul>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <!-- User list visible only by client service -->
+    <div class="user-list" *ngIf="currUserId === 'admin'">
+        <mat-card class="card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>Customer List</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <ul class="users">
+                    <li class="user" *ngFor="let customer of customers" (click)="selectCustomer(customer.id)">
+                        <img src="{{ customer.photo }}" alt="{{ customer.username }}" class="user-image">
+                        <div
+                                *ngIf="newMessageCounts[customer.id] > 0"
+                                matBadge="{{ newMessageCounts[customer.id] }}"
+                                matBadgeOverlap="false"
+                                class="demo-section">
+                            {{ customer.username }}
+                        </div>
+                        <div
+                                *ngIf="newMessageCounts[customer.id] === 0"
+                                class="demo-section">
+                            {{ customer.username }}
+                        </div>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
 
-  <!-- Chat -->
-  <div class="chat-interface" *ngIf="currUserId != 'admin' || pickedUserIdx != 0">
-    <mat-card class="card" appearance="outlined">
-      <mat-card-header *ngIf="currUserId !== 'admin'; else setClientPhoto">
-        <div mat-card-avatar class="card-header-image" aria-label="Avatar"></div>
-        <mat-card-title>John Doe</mat-card-title>
-        <mat-card-subtitle class="card-subtitle">Client support</mat-card-subtitle>
-      </mat-card-header>
-      <ng-template #setClientPhoto>
-        <mat-card-header style="padding-bottom: 16px;">
-          <img [src]="customers[pickedUserIdx - 1].photo" alt="Customer Image" class="user-image">
-          <h6>{{ customers[pickedUserIdx - 1].username }}</h6>
-        </mat-card-header>
-      </ng-template>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <ul class="messages" aria-live="polite">
-          <li class="message" *ngFor="let item of messages"
-              [ngClass]="item.senderId === currUserId ? 'right' : 'left'">
-            <div class="text_wrapper">
-              <div class="text">{{ item.content }}</div>
-            </div>
-          </li>
-        </ul>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions>
-        <mat-icon class="button-poc"> attach_file</mat-icon>
-        <mat-icon class="button-poc">sentiment_satisfied</mat-icon>
-        <textarea matInput class="message_input" [(ngModel)]="messageInput" rows="2"
-                  placeholder="Ask something" name="message" aria-label="Message input"></textarea>
-        <button mat-button class="send-btn" type="submit" (click)="sendMessage()" aria-label="Send message">Send
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+    <!-- Chat -->
+    <div class="chat-interface" *ngIf="currUserId != 'admin' || pickedUserIdx != 0">
+        <mat-card class="card" appearance="outlined">
+            <mat-card-header *ngIf="currUserId !== 'admin'; else setClientPhoto">
+                <div mat-card-avatar class="card-header-image" aria-label="Avatar"></div>
+                <mat-card-title>John Doe</mat-card-title>
+                <mat-card-subtitle class="card-subtitle">Client support</mat-card-subtitle>
+            </mat-card-header>
+            <ng-template #setClientPhoto>
+                <mat-card-header style="padding-bottom: 16px;">
+                    <img [src]="customers[pickedUserIdx - 1].photo" alt="Customer Image" class="user-image">
+                    <h6>{{ customers[pickedUserIdx - 1].username }}</h6>
+                </mat-card-header>
+            </ng-template>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <ul class="messages" aria-live="polite">
+                    <li class="message" *ngFor="let item of messages"
+                        [ngClass]="item.senderId === currUserId ? 'right' : 'left'">
+                        <div class="text_wrapper">
+                            <div class="text">{{ item.content }}</div>
+                        </div>
+                    </li>
+                </ul>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <mat-icon class="button-poc"> attach_file</mat-icon>
+                <mat-icon class="button-poc">sentiment_satisfied</mat-icon>
+                <textarea matInput class="message_input" [(ngModel)]="messageInput" rows="2"
+                          placeholder="Ask something" name="message" aria-label="Message input"></textarea>
+                <button mat-button class="send-btn" type="submit" (click)="sendMessage()" aria-label="Send message">Send
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>
